@@ -4,6 +4,10 @@ const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
 const gameField = document.querySelector('.game__field');
+const popUp = document.querySelector('.popUp');
+const popUpMessage = document.querySelector('.popUp__message');
+const refreshBtn = document.querySelector('.popUp__refresh');
+const playBtn = document.querySelector('.fas');
 const fieldRect = gameField.getBoundingClientRect();
 
 const TOMB_COUNT = 10;
@@ -15,6 +19,7 @@ let started = false;
 gameBtn.addEventListener('click', () => {
     if(started) {
         stopTimer();
+        showPopUp('Replay?');
         started=false;
 
     }else{
@@ -32,6 +37,8 @@ function initGame() {
     addItem('tomb',TOMB_COUNT,'img/tomb.png');
     startTimer();
     gameScore.innerHTML = `${SKULL_COUNT}`;
+    playBtn.classList.remove('fas-play');
+    playBtn.classList.add('fa-stop');
 }
 function addItem(className,count,src) {
     const minX = 0;
@@ -55,6 +62,23 @@ function addItem(className,count,src) {
 function randomNumber(min,max){
     return Math.random()*(max-min)+min;
 }
+function showPopUp(message) {
+    popUp.classList.remove('popUp-hide');
+    popUpMessage.innerHTML=`${message}`;
+}
+function hidePopUp() {
+    popUp.classList.add('popUp-hide');
+}
+refreshBtn.addEventListener('click',()=>{
+    hidePopUp();
+    gameField.innerHTML=``;
+    addItem('skull',SKULL_COUNT,'img/skull.png');
+    addItem('tomb',TOMB_COUNT,'img/tomb.png');
+    startTimer();
+    gameScore.innerHTML = `${SKULL_COUNT}`;
+    started=true;
+    score=0;
+})
 
 gameField.addEventListener('click',(event)=>{
     if(event.target==gameField){
@@ -62,6 +86,7 @@ gameField.addEventListener('click',(event)=>{
     }
     if(event.target.matches('.tomb')){
         stopTimer();
+        showPopUp('You Lost~~');
     }
     else if(event.target.matches('.skull')){
         event.target.remove();
@@ -78,20 +103,19 @@ function updateScore() {
 let timer=undefined;
 function startTimer() {
     let timeleft = 10;
+    timeSetting(timeleft);
     timer = setInterval(() => {
-        if (timeleft<0){
-            clearInterval()
+        if (timeleft<=0){
+            clearInterval();
         }
         else{
-        timeSetting(timeleft);
-        timeleft--;
+        timeSetting(--timeleft);
         }
     }, 1000);
 }
 function stopTimer() {
     clearInterval(timer);
 }
-
 function timeSetting(time) {
     const minute = Math.floor(time/60);
     const second = time%60;
