@@ -12,7 +12,8 @@ const fieldRect = gameField.getBoundingClientRect();
 
 const TOMB_COUNT = 10;
 const SKULL_COUNT = 5;
-const TOMB_SIZE = 70;
+const timeDuration = 10;
+const TOMB_SIZE = 80;
 
 let started = false;
 
@@ -20,8 +21,7 @@ gameBtn.addEventListener('click', () => {
     if(started) {
         stopTimer();
         showPopUp('Replay?');
-        started=false;
-
+        
     }else{
         initGame();
         started=true;
@@ -36,8 +36,12 @@ function initGame() {
     addItem('skull',SKULL_COUNT,'img/skull.png');
     addItem('tomb',TOMB_COUNT,'img/tomb.png');
     startTimer();
-    gameScore.innerHTML = `${SKULL_COUNT}`;
-    playBtn.classList.remove('fas-play');
+    showStopBtn();
+    gameScore.innerHTML=SKULL_COUNT;
+    
+}
+function showStopBtn() {
+    playBtn.classList.remove('fa-play');
     playBtn.classList.add('fa-stop');
 }
 function addItem(className,count,src) {
@@ -76,7 +80,6 @@ refreshBtn.addEventListener('click',()=>{
     addItem('tomb',TOMB_COUNT,'img/tomb.png');
     startTimer();
     gameScore.innerHTML = `${SKULL_COUNT}`;
-    started=true;
     score=0;
 })
 
@@ -91,6 +94,10 @@ gameField.addEventListener('click',(event)=>{
     else if(event.target.matches('.skull')){
         event.target.remove();
         updateScore();
+        if(score==SKULL_COUNT){
+            stopTimer();
+            showPopUp('You Win🎉');
+        }
     }
 })
 
@@ -99,14 +106,14 @@ function updateScore() {
     score++;
     gameScore.innerHTML=SKULL_COUNT-score;
 }
-
 let timer=undefined;
 function startTimer() {
-    let timeleft = 10;
+    let timeleft = timeDuration;
     timeSetting(timeleft);
     timer = setInterval(() => {
         if (timeleft<=0){
-            clearInterval();
+            stopTimer();
+            showPopUp('You Lost');
         }
         else{
         timeSetting(--timeleft);
