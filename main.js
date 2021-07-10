@@ -5,6 +5,8 @@ const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
 const gameField = document.querySelector('.game__field');
 const fieldRect = gameField.getBoundingClientRect();
+const target = document.querySelector('.target');
+
 
 const popUp = document.querySelector('.popUp');
 const popUpMessage = document.querySelector('.popUp__message');

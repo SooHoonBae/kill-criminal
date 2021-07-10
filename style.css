@@ -3,6 +3,7 @@
 }
 body {
   background-color: black;
+  cursor: url(img/target.png) 60 60, auto;
 }
 button {
   outline: none;
@@ -145,6 +146,11 @@ button:hover {
 }
 .tomb:hover,
 .skull:hover {
-  cursor: pointer;
   transform: scale(1.1);
+}
+.target {
+  /* border: 5px solid red; */
+  position: fixed;
+  top: 0;
+  left: 0;
 }
