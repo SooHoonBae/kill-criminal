@@ -47,6 +47,8 @@ button:hover {
   visibility: hidden;
   transition: all 1s ease-in-out;
   transition-delay: 300ms;
+  user-select: none;
+  cursor: auto;
 }
 .game__score {
   font-size: 32px;
@@ -58,6 +60,8 @@ button:hover {
   background-color: pink;
   color: white;
   visibility: hidden;
+  user-select: none;
+  cursor: auto;
 }
 .game__field {
   position: absolute;
@@ -124,13 +128,21 @@ button:hover {
     opacity: 0;
   }
 }
+@keyframes dead {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
-/* .tomb {
+.tomb {
   animation: tombAni 0.5s ease-in-out forwards;
 }
 .skull {
-  animation: skullAni 3s ease-in-out infinite;
-} */
+  animation: tombAni 2s ease-in-out forwards;
+}
 .tomb:hover,
 .skull:hover {
   cursor: pointer;
